@@ -1,0 +1,15 @@
+Requerimientos Tecnicos
+Front End
+    - React.js / Next.js. Simple y sencillo de utilizar y conectar con backend
+
+Back End
+    - Python como lenguaje de programacion. Simple, facil y rapido de utilizar y configurar para ambientes. Alta eficiencia con APIs y manejo de datos / transacciones
+    - FastAPI / Flask para APIs. Facil de implementar y amigable para integraciones.
+
+Base de Datos 
+    - PosgreSQL
+    - MySQL
+
+
+
+

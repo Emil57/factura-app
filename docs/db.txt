@@ -1,0 +1,135 @@
+Tablas de Base de Datos
+
+
+Tablas de Autenticación y Usuarios
+1. Roles
+IdRol (int, PK)
+NombreRol (string) - ej: "Admin", "Usuario", "Contador"
+Descripcion (string)
+FechaCreacion (datetime)
+
+2. UsuarioRoles (tabla de relación)
+IdUsuario (int, FK)
+IdRol (int, FK)
+FechaAsignacion (datetime)
+
+3. Sesiones (para manejo de sesiones)
+IdSesion (string, PK)
+IdUsuario (int, FK)
+TokenAcceso (string)
+FechaCreacion (datetime)
+FechaExpiracion (datetime)
+EstadoActivo (boolean)
+
+
+Tablas de Clientes/Proveedores
+4. TipoPersona
+IdTipoPersona (int, PK)
+Descripcion (string) - "Cliente", "Proveedor", "Empleado"
+
+5. Clientes
+IdCliente (int, PK)
+IdPersona (int, FK)
+RFC (string)
+RazonSocial (string)
+TipoPersona (string) - "Física", "Moral"
+RegimenFiscal (string)
+UsoCFDI (string)
+FechaRegistro (datetime)
+Activo (boolean)
+
+
+Tablas de Productos/Servicios
+6. Categorias
+IdCategoria (int, PK)
+NombreCategoria (string)
+Descripcion (string)
+
+7. Productos
+IdProducto (int, PK)
+IdCategoria (int, FK)
+CodigoProducto (string)
+NombreProducto (string)
+Descripcion (string)
+PrecioUnitario (decimal)
+Stock (int)
+UnidadMedida (string)
+IVA (decimal)
+Activo (boolean)
+
+
+Tablas de Facturación
+8. Facturas
+IdFactura (int, PK)
+IdUsuario (int, FK) - quien creó la factura
+IdCliente (int, FK)
+NumeroFactura (string)
+Serie (string)
+FechaEmision (datetime)
+FechaVencimiento (datetime)
+Subtotal (decimal)
+IVA (decimal)
+Total (decimal)
+Moneda (string)
+TipoCambio (decimal)
+Observaciones (text)
+Estado (string) - "Borrador", "Emitida", "Pagada", "Cancelada"
+UUIDTimbre (string) - para facturación electrónica
+FechaTimbrado (datetime)
+
+9. DetalleFactura
+IdDetalle (int, PK)
+IdFactura (int, FK)
+IdProducto (int, FK)
+Cantidad (decimal)
+PrecioUnitario (decimal)
+Descuento (decimal)
+Subtotal (decimal)
+IVA (decimal)
+Total (decimal)
+
+
+Tablas de Pagos
+10. MetodosPago
+IdMetodoPago (int, PK)
+NombreMetodo (string) - "Efectivo", "Transferencia", "Tarjeta"
+Descripcion (string)
+
+11. Pagos
+IdPago (int, PK)
+IdFactura (int, FK)
+IdMetodoPago (int, FK)
+MontoPago (decimal)
+FechaPago (datetime)
+ReferenciaPago (string)
+Observaciones (string)
+
+
+Tablas de Configuración
+12. ConfiguracionEmpresa
+IdConfiguracion (int, PK)
+NombreEmpresa (string)
+RFC (string)
+DireccionCompleta (string)
+Telefono (string)
+Email (string)
+Logo (string) - ruta del archivo
+RegimenFiscal (string)
+
+13. Impuestos
+IdImpuesto (int, PK)
+NombreImpuesto (string)
+Porcentaje (decimal)
+Activo (boolean)
+
+
+Tablas de Auditoría y Log
+14. LogActividades
+IdLog (int, PK)
+IdUsuario (int, FK)
+Accion (string)
+TablaAfectada (string)
+ValorAnterior (text)
+ValorNuevo (text)
+FechaAccion (datetime)
+DireccionIP (string)
