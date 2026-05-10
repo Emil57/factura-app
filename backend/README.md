@@ -14,7 +14,8 @@ Este proyecto es un backend construido con **FastAPI** y organizado en un entorn
    ```powershell
    python -m venv .venv
    .venv\Scripts\activate
-
+    ```
+    
 3. **Instalar uv en el entorno**
     ```powershell
     pip install uv
@@ -44,4 +45,10 @@ Este proyecto es un backend construido con **FastAPI** y organizado en un entorn
 6. **Instalar un grupo en el entorno**
     ```powershell
     python -m uv pip install -g backend
+    ```
+
+7. **Correr backend local**
+    Correr las APIs con FastAPI:
+    ```powershell
+    uvicorn backend.main:app --reload
     ```
