@@ -57,7 +57,8 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 th { text-align: left; color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; }
 th, td { padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.num button.ghost { padding: 0 0.4rem; }
 tr.clickable { cursor: pointer; }
 tr.clickable:hover td { background: #fafaf7; }
 
@@ -80,6 +81,7 @@ tr.clickable:hover td { background: #fafaf7; }
 
 .line { border: 1px solid var(--line); border-radius: 8px; padding: 0.8rem; margin-bottom: 0.7rem; background: #fcfcfa; }
 .line-grid { display: grid; gap: 0.6rem; grid-template-columns: 2.4fr 1fr 1fr 0.8fr 0.8fr 1fr; }
+.line-grid > *, .grid > * { min-width: 0; }
 .line-grid.taxes { grid-template-columns: repeat(5, 1fr) auto; margin-top: 0.6rem; align-items: end; }
 
 .login { min-height: 100vh; display: grid; place-items: center; }
