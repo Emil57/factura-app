@@ -29,6 +29,35 @@ Estado actual (MVP): emisores, clientes, productos, facturas CFDI 4.0 (borrador 
 - [ ] **Alta de clientes desde la Constancia de Situación Fiscal** (lectura del PDF).
 - [ ] **Multiempresa**: que cada cuenta vea solo sus propios emisores y facturas.
 
+## 4. Funcionalidades por agregar
+
+**Facturación**
+- [ ] Duplicar una factura existente como nuevo borrador.
+- [ ] Facturas recurrentes (rentas, igualas, suscripciones) generadas automáticamente cada mes.
+- [ ] Cotizaciones que se convierten en factura con un clic.
+- [ ] Autofacturación: portal donde el cliente captura su ticket y sus datos fiscales.
+- [ ] CFDI de Retenciones e información de pagos (constancias de retenciones).
+- [ ] Anticipos (factura de anticipo + aplicación con nota de crédito).
+
+**Clientes y productos**
+- [ ] Importación masiva de clientes y productos desde CSV/Excel.
+- [ ] Verificación del RFC del cliente en la lista de contribuyentes del SAT (LCO) y aviso si aparece en la lista 69-B.
+- [ ] Pantalla de categorías e inventario: descontar `stock` al timbrar y avisar cuando se agote.
+- [ ] Historial por cliente: facturas, pagos y saldo pendiente.
+
+**Cobranza y reportes**
+- [ ] Estado de cuenta por cliente y antigüedad de saldos.
+- [ ] Recordatorios de pago por correo para facturas vencidas.
+- [ ] Exportar facturas y reportes a Excel/CSV.
+- [ ] Tipo de cambio automático del DOF/Banxico para facturas en USD o EUR.
+- [ ] Descarga masiva de XML en ZIP por periodo.
+
+**Plataforma**
+- [ ] Bitácora visible en la app (quién hizo qué y cuándo).
+- [ ] Recuperación de contraseña por correo.
+- [ ] Modo oscuro y vista móvil optimizada.
+- [ ] Segundo PAC (Finkok) como respaldo si Facturama no responde.
+
 ## Orden sugerido
 
 1. Prueba de punta a punta.
