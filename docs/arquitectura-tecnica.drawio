@@ -140,43 +140,46 @@
         <mxCell id="arq45" value="&lt;b&gt;Pruebas&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;backend/tests/test_cfdi.py&lt;/font&gt; · pytest · 19 pruebas&lt;br&gt;Impuestos y redondeo · retenciones sugeridas&lt;br&gt;Validaciones CFDI 4.0 · payload Facturama&lt;br&gt;XML de vista previa bien formado" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq40">
           <mxGeometry x="1420" y="40" width="460" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="arq46" value="HTTPS :3000" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq3" target="arq5">
+        <mxCell id="arq46" value="&lt;b&gt;Stack técnico (detalle y versiones en la página «Stack técnico»)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Frontend&lt;/b&gt;: Next.js 15.1.3 · React 19.0.0 · TypeScript 5.7.2 · CSS propio&lt;br&gt;&lt;b&gt;Backend&lt;/b&gt;: Python 3.12 · FastAPI 0.115.6 · Uvicorn 0.34.0&lt;br&gt;Pydantic 2.10.4 · SQLAlchemy 2.0.36 · psycopg 3.2.3&lt;br&gt;PyJWT 2.10.1 · httpx 0.28.1 · python-multipart 0.0.20&lt;br&gt;&lt;b&gt;Datos&lt;/b&gt;: PostgreSQL 16&lt;br&gt;&lt;b&gt;PAC&lt;/b&gt;: Facturama API Multiemisor · CFDI 4.0 · TFD 1.1&lt;br&gt;&lt;b&gt;Infra&lt;/b&gt;: Docker · Docker Compose · Node.js 22&lt;br&gt;&lt;b&gt;Pruebas&lt;/b&gt;: pytest 8.3.4 · tsc --noEmit" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="850" width="520" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="arq47" value="HTTPS :3000" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq3" target="arq5">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq47" value="REST JSON · Bearer JWT · CORS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq7" target="arq16">
+        <mxCell id="arq48" value="REST JSON · Bearer JWT · CORS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq7" target="arq16">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq48" value="Depends()" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=0.7;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="arq16" target="arq13">
+        <mxCell id="arq49" value="Depends()" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=0.7;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="arq16" target="arq13">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq49" value="decode_token" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq13" target="arq14">
+        <mxCell id="arq50" value="decode_token" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq13" target="arq14">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq50" value="totals · validate · payload · stamp/cancel" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq22" target="arq23">
+        <mxCell id="arq51" value="totals · validate · payload · stamp/cancel" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq22" target="arq23">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq51" value="upload_csd" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq19" target="arq27">
+        <mxCell id="arq52" value="upload_csd" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq19" target="arq27">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq52" value="suggest_withholdings" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq18" target="arq24">
+        <mxCell id="arq53" value="suggest_withholdings" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq18" target="arq24">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq53" value="catálogos · RFC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=1;entryY=0.25;" edge="1" parent="1" source="arq25" target="arq28">
+        <mxCell id="arq54" value="catálogos · RFC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=1;entryY=0.25;" edge="1" parent="1" source="arq25" target="arq28">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq54" value="Session (get_db)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq16" target="arq31">
+        <mxCell id="arq55" value="Session (get_db)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq16" target="arq31">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq55" value="SQLAlchemy · psycopg 3 · TCP 5432" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq33" target="arq35">
+        <mxCell id="arq56" value="SQLAlchemy · psycopg 3 · TCP 5432" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq33" target="arq35">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq56" value="HTTPS · httpx · Basic Auth" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq27" target="arq37">
+        <mxCell id="arq57" value="HTTPS · httpx · Basic Auth" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq27" target="arq37">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq57" value="certificación" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq37" target="arq38">
+        <mxCell id="arq58" value="certificación" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq37" target="arq38">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arq58" value="solicitud de cancelación" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq38" target="arq39">
+        <mxCell id="arq59" value="solicitud de cancelación" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq38" target="arq39">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
@@ -907,6 +910,86 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="mod128" value="0..1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERzeroToOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod115" target="mod102">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Stack técnico" id="stack-técnico">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1960" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sta1" value="&lt;b&gt;Stack técnico · versiones exactas&lt;/b&gt;&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Fuente: backend/requirements*.txt, frontend/package.json, Dockerfiles y docker-compose.yml&lt;/font&gt;&lt;/i&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="12" width="1500" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sta2" value="&lt;b&gt;Navegador&lt;/b&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sta3" value="&lt;b&gt;Next.js 15 · React 19&lt;/b&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="430" y="80" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sta4" value="&lt;b&gt;FastAPI · Python 3.12&lt;/b&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="820" y="80" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sta5" value="&lt;b&gt;Facturama Multiemisor&lt;/b&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="80" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sta6" value="&lt;b&gt;SAT · CFDI 4.0&lt;/b&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1600" y="80" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sta11" value="&lt;b&gt;PostgreSQL 16&lt;/b&gt;" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=center;verticalAlign=middle;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="820" y="170" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sta13" value="&lt;b&gt;Frontend&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="610" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="sta14" value="&lt;b&gt;Next.js&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;15.1.3&lt;/font&gt; — App Router, rutas (app)/, build output standalone&lt;br&gt;&lt;b&gt;React · react-dom&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;19.0.0&lt;/font&gt; — componentes cliente (&quot;use client&quot;) y hooks&lt;br&gt;&lt;b&gt;TypeScript&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;5.7.2&lt;/font&gt; — modo strict; tipos de la API en lib/api.ts&lt;br&gt;&lt;b&gt;@types/node · react · react-dom&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;22.10.2 · 19.0.2&lt;/font&gt; — tipos de desarrollo&lt;br&gt;&lt;b&gt;CSS propio&lt;/b&gt; — app/globals.css, sin framework UI, responsive &amp;lt; 800 px&lt;br&gt;&lt;b&gt;Fetch API · localStorage&lt;/b&gt; — llamadas REST y token JWT en el navegador&lt;br&gt;&lt;b&gt;Node.js&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;22 (alpine)&lt;/font&gt; — compilación y servidor de producción" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;spacingTop=6;" vertex="1" parent="sta13">
+          <mxGeometry x="15" y="36" width="580" height="239" as="geometry" />
+        </mxCell>
+        <mxCell id="sta15" value="&lt;b&gt;Backend&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="675" y="260" width="610" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="sta16" value="&lt;b&gt;Python&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;3.12 (slim)&lt;/font&gt; — lenguaje del API&lt;br&gt;&lt;b&gt;FastAPI&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;0.115.6&lt;/font&gt; — routers, Depends(), OpenAPI en /docs&lt;br&gt;&lt;b&gt;Uvicorn[standard]&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;0.34.0&lt;/font&gt; — servidor ASGI&lt;br&gt;&lt;b&gt;Pydantic&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;2.10.4&lt;/font&gt; — esquemas *In/*Out y validadores (AfterValidator)&lt;br&gt;&lt;b&gt;SQLAlchemy&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;2.0.36&lt;/font&gt; — ORM tipado (Mapped), bloqueo SELECT … FOR UPDATE&lt;br&gt;&lt;b&gt;psycopg[binary]&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;3.2.3&lt;/font&gt; — driver de PostgreSQL&lt;br&gt;&lt;b&gt;PyJWT&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;2.10.1&lt;/font&gt; — tokens JWT HS256&lt;br&gt;&lt;b&gt;python-multipart&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;0.0.20&lt;/font&gt; — formulario OAuth2 del login&lt;br&gt;&lt;b&gt;httpx&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;0.28.1&lt;/font&gt; — cliente HTTP hacia Facturama&lt;br&gt;&lt;b&gt;Librería estándar&lt;/b&gt; — decimal (impuestos) · hashlib PBKDF2 (contraseñas) · xml.etree (XML) · zoneinfo · base64" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;spacingTop=6;" vertex="1" parent="sta15">
+          <mxGeometry x="15" y="36" width="580" height="239" as="geometry" />
+        </mxCell>
+        <mxCell id="sta17" value="&lt;b&gt;Datos&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="260" width="610" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="sta18" value="&lt;b&gt;PostgreSQL&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;16 (alpine)&lt;/font&gt; — base de datos relacional&lt;br&gt;&lt;b&gt;Esquema&lt;/b&gt; — 10 tablas, ver página «Modelo de datos»&lt;br&gt;&lt;b&gt;Tipos monetarios&lt;/b&gt; — numeric(18,2) importes · numeric(18,6) cantidades, precios y tasas&lt;br&gt;&lt;b&gt;Volumen Docker&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;pgdata&lt;/font&gt; — persistencia de datos&lt;br&gt;&lt;b&gt;Migraciones&lt;/b&gt; — create_all al iniciar (Alembic pendiente, ver ROADMAP)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;spacingTop=6;" vertex="1" parent="sta17">
+          <mxGeometry x="15" y="36" width="580" height="239" as="geometry" />
+        </mxCell>
+        <mxCell id="sta19" value="&lt;b&gt;Integraciones y estándares&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="570" width="610" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="sta20" value="&lt;b&gt;Facturama API Multiemisor&lt;/b&gt; — PAC: CSD, timbrado, descarga y cancelación · REST JSON · HTTP Basic&lt;br&gt;&lt;b&gt;CFDI&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;4.0&lt;/font&gt; — Anexo 20 del SAT · Timbre Fiscal Digital 1.1&lt;br&gt;&lt;b&gt;Catálogos SAT&lt;/b&gt; — c_RegimenFiscal, c_UsoCFDI, c_FormaPago, c_MetodoPago, c_ObjetoImp, c_Moneda…&lt;br&gt;&lt;b&gt;OAuth2 password flow + JWT Bearer&lt;/b&gt; — autenticación y roles&lt;br&gt;&lt;b&gt;REST · OpenAPI 3&lt;/b&gt; — documentación interactiva Swagger en /docs&lt;br&gt;&lt;b&gt;MockPAC&lt;/b&gt; — timbrado simulado sin validez fiscal para desarrollo" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;spacingTop=6;" vertex="1" parent="sta19">
+          <mxGeometry x="15" y="36" width="580" height="199" as="geometry" />
+        </mxCell>
+        <mxCell id="sta21" value="&lt;b&gt;Infraestructura&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="675" y="570" width="610" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="sta22" value="&lt;b&gt;Docker&lt;/b&gt; — imagen python:3.12-slim (api) e imagen multi-stage node:22-alpine (web)&lt;br&gt;&lt;b&gt;Docker Compose&lt;/b&gt; — servicios db, api y web con healthcheck&lt;br&gt;&lt;b&gt;Puertos&lt;/b&gt; — web 3000 · api 8000 · db 5432&lt;br&gt;&lt;b&gt;Configuración&lt;/b&gt; — variables de entorno en backend/.env y frontend/.env.local&lt;br&gt;&lt;b&gt;GitHub&lt;/b&gt; — repositorio Emil57/factura-app · rama feat/cfdi-mvp · PR #1" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;spacingTop=6;" vertex="1" parent="sta21">
+          <mxGeometry x="15" y="36" width="580" height="199" as="geometry" />
+        </mxCell>
+        <mxCell id="sta23" value="&lt;b&gt;Calidad y herramientas&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="570" width="610" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="sta24" value="&lt;b&gt;pytest&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;8.3.4&lt;/font&gt; — 19 pruebas: impuestos, retenciones, validaciones, payload y XML&lt;br&gt;&lt;b&gt;tsc --noEmit&lt;/b&gt; — verificación de tipos (npm run typecheck)&lt;br&gt;&lt;b&gt;next lint&lt;/b&gt; — análisis estático (npm run lint)&lt;br&gt;&lt;b&gt;Git&lt;/b&gt; — ramas y pull requests&lt;br&gt;&lt;b&gt;draw.io&lt;/b&gt; — documentación de arquitectura (este archivo)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;spacingTop=6;" vertex="1" parent="sta23">
+          <mxGeometry x="15" y="36" width="580" height="199" as="geometry" />
+        </mxCell>
+        <mxCell id="sta7" value="HTTPS :3000" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sta2" target="sta3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sta8" value="REST JSON + JWT :8000" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sta3" target="sta4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sta9" value="HTTPS + Basic Auth" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sta4" target="sta5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sta10" value="Timbrado / cancelación" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sta5" target="sta6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sta12" value="SQL · psycopg 3 :5432" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="sta4" target="sta11">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>

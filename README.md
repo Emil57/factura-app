@@ -97,7 +97,7 @@ docs/                   # Requerimientos, tablas, diagrama original y arquitectu
 
 ## Diagrama técnico
 
-`docs/arquitectura-tecnica.drawio` (ábrelo en https://app.diagrams.net) tiene tres páginas: **Arquitectura** (componentes, endpoints y despliegue), **Flujo de timbrado** (secuencia de borrador → timbrado → descarga → cancelación) y **Modelo de datos** (tablas y relaciones).
+`docs/arquitectura-tecnica.drawio` (ábrelo en https://app.diagrams.net) tiene cuatro páginas: **Arquitectura** (componentes, endpoints y despliegue), **Flujo de timbrado** (secuencia de borrador → timbrado → descarga → cancelación), **Modelo de datos** (tablas y relaciones) y **Stack técnico** (tecnologías con versiones exactas).
 
 ## Cambios respecto a `docs/db.txt`
 
