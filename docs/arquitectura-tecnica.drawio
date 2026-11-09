@@ -1,0 +1,915 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="factura-app generator" version="24.7.17">
+  <diagram name="Arquitectura" id="arquitectura">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1980" pageHeight="1320" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="arq1" value="&lt;b&gt;Factura App — Arquitectura técnica&lt;/b&gt;&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Emisión de CFDI 4.0 para cualquier contribuyente · rama feat/cfdi-mvp&lt;/font&gt;&lt;/i&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="12" width="1100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="arq2" value="&lt;b&gt;Leyenda&lt;/b&gt; &amp;nbsp; ── petición HTTP/TCP entre contenedores &amp;nbsp;&amp;nbsp; - - - llamada interna (Python) &amp;nbsp;&amp;nbsp; Azul: frontend · Verde: backend · Amarillo: datos · Rojo: externos · Morado: despliegue" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="16" width="640" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="arq3" value="&lt;b&gt;Usuarios · navegador web&lt;/b&gt;&lt;br&gt;Roles: &lt;b&gt;Admin&lt;/b&gt; (todo) · &lt;b&gt;Usuario&lt;/b&gt; (captura y timbra) · &lt;b&gt;Contador&lt;/b&gt; (consulta y cancela)" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="520" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="arq4" value="&lt;b&gt;Frontend · Next.js 15 (App Router) · React 19 · TypeScript&lt;/b&gt;&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Contenedor web · node:22-alpine · output standalone · :3000&lt;/font&gt;&lt;/i&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="190" width="520" height="630" as="geometry" />
+        </mxCell>
+        <mxCell id="arq5" value="&lt;b&gt;app/ · páginas&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;/login&lt;/font&gt; — formulario OAuth2 → token JWT&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;(app)/layout.tsx&lt;/font&gt; — guarda de sesión, &lt;font face=&quot;Courier New&quot;&gt;GET /api/auth/me&lt;/font&gt;, menú&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;/facturas&lt;/font&gt; — lista con filtros (estado, cliente, UUID)&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;/facturas/nueva&lt;/font&gt; — InvoiceEditor&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;/facturas/[id]&lt;/font&gt; — detalle · validar · timbrar · cancelar · XML/PDF&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;/clientes&lt;/font&gt; — CRUD, régimen y uso CFDI según persona&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;/productos&lt;/font&gt; — CRUD, ClaveProdServ/ClaveUnidad, IVA/IEPS&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;/emisores&lt;/font&gt; — CRUD y carga de CSD (.cer/.key → Base64)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq4">
+          <mxGeometry x="20" y="60" width="480" height="168" as="geometry" />
+        </mxCell>
+        <mxCell id="arq6" value="&lt;b&gt;components/&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;InvoiceEditor.tsx&lt;/font&gt; — conceptos, totales en vivo (debounce 350 ms), retenciones sugeridas&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;CatalogSelect.tsx&lt;/font&gt; — catálogos SAT filtrados por persona física/moral&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;Modal.tsx&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;EstadoBadge.tsx&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;UserContext.tsx&lt;/font&gt; — usuario actual y hasRole()" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq4">
+          <mxGeometry x="20" y="246" width="480" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="arq7" value="&lt;b&gt;lib/&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;api.ts&lt;/font&gt; — fetch + Authorization: Bearer, errores FastAPI → texto, descargas, tipos TS&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;hooks.ts&lt;/font&gt; — useCatalogs (caché), useList, formato MXN y %&lt;br&gt;Base URL: &lt;font face=&quot;Courier New&quot;&gt;NEXT_PUBLIC_API_URL&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq4">
+          <mxGeometry x="20" y="376" width="480" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="arq8" value="&lt;b&gt;localStorage&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;factura_token&lt;/font&gt; (JWT)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq4">
+          <mxGeometry x="20" y="478" width="230" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="arq9" value="&lt;b&gt;app/globals.css&lt;/b&gt;&lt;br&gt;Estilos propios, sin librería UI" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq4">
+          <mxGeometry x="270" y="478" width="230" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="arq10" value="&lt;b&gt;Seguridad en cliente&lt;/b&gt;&lt;br&gt;401 → borra token y redirige a /login · botones según rol (hasRole)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq4">
+          <mxGeometry x="20" y="552" width="480" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="arq11" value="&lt;b&gt;Backend · Python 3.12 · FastAPI · Uvicorn&lt;/b&gt;&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Contenedor api · python:3.12-slim · :8000 · OpenAPI en /docs&lt;/font&gt;&lt;/i&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="80" width="900" height="990" as="geometry" />
+        </mxCell>
+        <mxCell id="arq12" value="&lt;b&gt;main.py&lt;/b&gt;&lt;br&gt;FastAPI app · CORSMiddleware&lt;br&gt;lifespan → init_db():&lt;br&gt;create_all + roles + admin&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET /api/health&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq11">
+          <mxGeometry x="20" y="60" width="205" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="arq13" value="&lt;b&gt;deps.py&lt;/b&gt;&lt;br&gt;OAuth2PasswordBearer&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;current_user&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;require_roles(...)&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;audit()&lt;/font&gt; → log_actividades" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq11">
+          <mxGeometry x="240" y="60" width="205" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="arq14" value="&lt;b&gt;security.py&lt;/b&gt;&lt;br&gt;PBKDF2-SHA256 · 600k iter.&lt;br&gt;JWT HS256 (PyJWT)&lt;br&gt;exp = JWT_MINUTES" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq11">
+          <mxGeometry x="460" y="60" width="205" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="arq15" value="&lt;b&gt;config.py&lt;/b&gt;&lt;br&gt;Variables de entorno:&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;DATABASE_URL&lt;/font&gt;, &lt;font face=&quot;Courier New&quot;&gt;JWT_SECRET&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;CORS_ORIGINS&lt;/font&gt;, &lt;font face=&quot;Courier New&quot;&gt;PAC_PROVIDER&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;FACTURAMA_*&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq11">
+          <mxGeometry x="680" y="60" width="200" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="arq16" value="&lt;b&gt;routers/&lt;/b&gt; · prefijo /api" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#f3f9f1;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontSize=11;container=1;collapsible=0;" vertex="1" parent="arq11">
+          <mxGeometry x="20" y="195" width="430" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="arq17" value="&lt;b&gt;auth.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;POST /api/auth/token&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;GET /api/auth/me&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET|POST /api/auth/usuarios&lt;/font&gt; (Admin)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq16">
+          <mxGeometry x="10" y="30" width="410" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="arq18" value="&lt;b&gt;catalogs.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET /api/catalogos&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET /api/catalogos/retenciones-sugeridas&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq16">
+          <mxGeometry x="10" y="104" width="410" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="arq19" value="&lt;b&gt;emisores.py · Admin&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET|POST /api/emisores&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;PUT|DELETE /api/emisores/{id}&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;POST /api/emisores/{id}/csd&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq16">
+          <mxGeometry x="10" y="178" width="410" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="arq20" value="&lt;b&gt;clientes.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET|POST /api/clientes&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET|PUT|DELETE /api/clientes/{id}&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq16">
+          <mxGeometry x="10" y="266" width="410" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="arq21" value="&lt;b&gt;productos.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET|POST|PUT|DELETE /api/productos&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET|POST /api/categorias&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq16">
+          <mxGeometry x="10" y="340" width="410" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="arq22" value="&lt;b&gt;facturas.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET|POST /api/facturas&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;POST /api/facturas/calcular&lt;/font&gt; (sin guardar)&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET|PUT|DELETE /api/facturas/{id}&lt;/font&gt; (solo borrador)&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET  /api/facturas/{id}/resumen&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;POST /api/facturas/{id}/validar&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;POST /api/facturas/{id}/timbrar&lt;/font&gt; (Usuario)&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;POST /api/facturas/{id}/cancelar&lt;/font&gt; (Contador)&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET  /api/facturas/{id}/xml&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET  /api/facturas/{id}/pdf&lt;/font&gt;&lt;br&gt;Folio asignado al timbrar con &lt;font face=&quot;Courier New&quot;&gt;SELECT … FOR UPDATE&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq16">
+          <mxGeometry x="10" y="414" width="410" height="216" as="geometry" />
+        </mxCell>
+        <mxCell id="arq23" value="&lt;b&gt;services/&lt;/b&gt;" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#f3f9f1;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontSize=11;container=1;collapsible=0;" vertex="1" parent="arq11">
+          <mxGeometry x="470" y="195" width="410" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="arq24" value="&lt;b&gt;taxes.py · motor puro&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;compute_line&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;compute_invoice&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;Totals.summary()&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;suggest_withholdings(regimen, emisor, receptor)&lt;/font&gt;&lt;br&gt;Decimal ROUND_HALF_UP a 2 dec. · IEPS en base de IVA" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq23">
+          <mxGeometry x="10" y="30" width="390" height="92" as="geometry" />
+        </mxCell>
+        <mxCell id="arq25" value="&lt;b&gt;validation.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;validate_party&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;validate_invoice&lt;/font&gt;&lt;br&gt;RFC · régimen/uso vs persona · PUE/PPD→99&lt;br&gt;moneda/TC · público en general (616/S01/CP)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq23">
+          <mxGeometry x="10" y="130" width="390" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="arq26" value="&lt;b&gt;cfdi_builder.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;facturama_payload()&lt;/font&gt; → JSON Multiemisor&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;preview_xml()&lt;/font&gt; → CFDI 4.0 sin sellar&lt;br&gt;GlobalInformation · Relations (egreso)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq23">
+          <mxGeometry x="10" y="218" width="390" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="arq27" value="&lt;b&gt;pac.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;get_pac()&lt;/font&gt; → &lt;font face=&quot;Courier New&quot;&gt;MockPAC&lt;/font&gt; | &lt;font face=&quot;Courier New&quot;&gt;FacturamaPAC&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;upload_csd · stamp · download · cancel&lt;/font&gt;&lt;br&gt;Cliente &lt;font face=&quot;Courier New&quot;&gt;httpx&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;PACError&lt;/font&gt; → HTTP 502&lt;br&gt;Mock: UUID aleatorio, XML SIN VALIDEZ FISCAL" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq23">
+          <mxGeometry x="10" y="306" width="390" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="arq28" value="&lt;b&gt;sat/&lt;/b&gt;" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#f3f9f1;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontSize=11;container=1;collapsible=0;" vertex="1" parent="arq11">
+          <mxGeometry x="470" y="635" width="410" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="arq29" value="&lt;b&gt;catalogs.py&lt;/b&gt;&lt;br&gt;c_RegimenFiscal · c_UsoCFDI (física/moral)&lt;br&gt;c_FormaPago · c_MetodoPago · c_ObjetoImp&lt;br&gt;c_Moneda · c_Exportacion · motivos de cancelación&lt;br&gt;Tasas IVA (16/8/0/exento) e IEPS" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq28">
+          <mxGeometry x="10" y="30" width="390" height="92" as="geometry" />
+        </mxCell>
+        <mxCell id="arq30" value="&lt;b&gt;rfc.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;normalize_rfc · is_valid_rfc · tipo_persona&lt;/font&gt;&lt;br&gt;12 caracteres = moral · 13 = física" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq28">
+          <mxGeometry x="10" y="130" width="390" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="arq31" value="&lt;b&gt;models.py&lt;/b&gt;&lt;br&gt;SQLAlchemy 2 ORM (Mapped)&lt;br&gt;10 tablas · relaciones selectin&lt;br&gt;Estados: Borrador · Emitida ·&lt;br&gt;Cancelación pendiente · Cancelada" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq11">
+          <mxGeometry x="20" y="855" width="280" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="arq32" value="&lt;b&gt;schemas.py&lt;/b&gt;&lt;br&gt;Pydantic v2 · modelos *In / *Out&lt;br&gt;AfterValidator: RFC, régimen, CP&lt;br&gt;Razón social en mayúsculas" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq11">
+          <mxGeometry x="310" y="855" width="280" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="arq33" value="&lt;b&gt;database.py&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;create_engine(pool_pre_ping=True)&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;SessionLocal&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;get_db()&lt;/font&gt;&lt;br&gt;Driver: psycopg 3" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq11">
+          <mxGeometry x="600" y="855" width="280" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="arq34" value="&lt;b&gt;Datos · PostgreSQL 16&lt;/b&gt;&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Contenedor db · postgres:16-alpine · :5432 · volumen pgdata&lt;/font&gt;&lt;/i&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="80" width="360" height="470" as="geometry" />
+        </mxCell>
+        <mxCell id="arq35" value="&lt;b&gt;Esquema (ver página «Modelo de datos»)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Seguridad&lt;/b&gt;: roles · usuarios · usuario_roles&lt;br&gt;&lt;b&gt;Catálogo&lt;/b&gt;: emisores · clientes · categorias · productos&lt;br&gt;&lt;b&gt;Facturación&lt;/b&gt;: facturas · detalle_factura&lt;br&gt;&lt;b&gt;Auditoría&lt;/b&gt;: log_actividades&lt;br&gt;&lt;br&gt;&lt;b&gt;Restricciones&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;uq_factura_folio (emisor_id, serie, folio)&lt;/font&gt;&lt;br&gt;Únicos: emisores.rfc · usuarios.email · roles.nombre&lt;br&gt;Índices: clientes.rfc · facturas.uuid · detalle.factura_id&lt;br&gt;&lt;br&gt;&lt;b&gt;Se guarda&lt;/b&gt;: XML timbrado y acuse de cancelación&lt;br&gt;&lt;b&gt;No se guarda&lt;/b&gt;: llave privada ni contraseña del CSD" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq34">
+          <mxGeometry x="20" y="60" width="320" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="arq36" value="&lt;b&gt;Servicios externos&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="590" width="360" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="arq37" value="&lt;b&gt;Facturama · API Multiemisor (PAC)&lt;/b&gt;&lt;br&gt;Sandbox: &lt;font face=&quot;Courier New&quot;&gt;apisandbox.facturama.mx&lt;/font&gt;&lt;br&gt;Producción: &lt;font face=&quot;Courier New&quot;&gt;api.facturama.mx&lt;/font&gt;&lt;br&gt;Autenticación: HTTP Basic&lt;br&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;POST /api-lite/csds&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;PUT /api-lite/csds/{rfc}&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;POST /api-lite/4/cfdis&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;GET  /cfdi/{pdf|xml}/issuedLite/{id}&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;DELETE /api-lite/cfdis/{id}&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;  ?motive=01..04&amp;amp;uuidReplacement=&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq36">
+          <mxGeometry x="20" y="40" width="320" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="arq38" value="&lt;b&gt;SAT&lt;/b&gt;&lt;br&gt;Recibe el CFDI certificado (TimbreFiscalDigital)&lt;br&gt;Procesa solicitudes de cancelación" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq36">
+          <mxGeometry x="20" y="290" width="320" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="arq39" value="&lt;b&gt;Receptor · Buzón Tributario&lt;/b&gt;&lt;br&gt;Acepta o rechaza la cancelación (72 h)&lt;br&gt;→ estado «Cancelación pendiente»" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq36">
+          <mxGeometry x="20" y="385" width="320" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="arq40" value="&lt;b&gt;Despliegue · docker-compose.yml&lt;/b&gt;" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1110" width="1900" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="arq41" value="&lt;b&gt;servicio db&lt;/b&gt;&lt;br&gt;image: postgres:16-alpine&lt;br&gt;healthcheck: pg_isready&lt;br&gt;volumen: pgdata&lt;br&gt;puerto 5432" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq40">
+          <mxGeometry x="20" y="40" width="290" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="arq42" value="&lt;b&gt;servicio api&lt;/b&gt;&lt;br&gt;build: ./backend (python:3.12-slim)&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;uvicorn app.main:app&lt;/font&gt;&lt;br&gt;env_file: backend/.env&lt;br&gt;depends_on: db (healthy) · puerto 8000" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq40">
+          <mxGeometry x="325" y="40" width="290" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="arq43" value="&lt;b&gt;servicio web&lt;/b&gt;&lt;br&gt;build: ./frontend (node:22-alpine)&lt;br&gt;multi-stage → server.js standalone&lt;br&gt;ARG &lt;font face=&quot;Courier New&quot;&gt;NEXT_PUBLIC_API_URL&lt;/font&gt;&lt;br&gt;puerto 3000" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq40">
+          <mxGeometry x="630" y="40" width="290" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="arq44" value="&lt;b&gt;Configuración (backend/.env)&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;DATABASE_URL&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;JWT_SECRET&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;JWT_MINUTES&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;CORS_ORIGINS&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;ADMIN_EMAIL&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;ADMIN_PASSWORD&lt;/font&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;PAC_PROVIDER&lt;/font&gt; = mock | facturama&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;FACTURAMA_USER&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;FACTURAMA_PASSWORD&lt;/font&gt; · &lt;font face=&quot;Courier New&quot;&gt;FACTURAMA_SANDBOX&lt;/font&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq40">
+          <mxGeometry x="935" y="40" width="470" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="arq45" value="&lt;b&gt;Pruebas&lt;/b&gt;&lt;br&gt;&lt;font face=&quot;Courier New&quot;&gt;backend/tests/test_cfdi.py&lt;/font&gt; · pytest · 19 pruebas&lt;br&gt;Impuestos y redondeo · retenciones sugeridas&lt;br&gt;Validaciones CFDI 4.0 · payload Facturama&lt;br&gt;XML de vista previa bien formado" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="arq40">
+          <mxGeometry x="1420" y="40" width="460" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="arq46" value="HTTPS :3000" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq3" target="arq5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq47" value="REST JSON · Bearer JWT · CORS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq7" target="arq16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq48" value="Depends()" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=0.7;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="arq16" target="arq13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq49" value="decode_token" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq13" target="arq14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq50" value="totals · validate · payload · stamp/cancel" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq22" target="arq23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq51" value="upload_csd" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq19" target="arq27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq52" value="suggest_withholdings" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq18" target="arq24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq53" value="catálogos · RFC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;entryX=1;entryY=0.25;" edge="1" parent="1" source="arq25" target="arq28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq54" value="Session (get_db)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq16" target="arq31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq55" value="SQLAlchemy · psycopg 3 · TCP 5432" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq33" target="arq35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq56" value="HTTPS · httpx · Basic Auth" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arq27" target="arq37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq57" value="certificación" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq37" target="arq38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arq58" value="solicitud de cancelación" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="arq38" target="arq39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Flujo de timbrado" id="flujo-de-timbrado">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1985" pageHeight="1790" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="flu3" value="" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=none;dashed=1;strokeColor=#999999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="135" y="126" as="sourcePoint" />
+            <mxPoint x="135" y="1760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu5" value="" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=none;dashed=1;strokeColor=#999999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="126" as="sourcePoint" />
+            <mxPoint x="380" y="1760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu7" value="" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=none;dashed=1;strokeColor=#999999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="126" as="sourcePoint" />
+            <mxPoint x="625" y="1760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu9" value="" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=none;dashed=1;strokeColor=#999999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="870" y="126" as="sourcePoint" />
+            <mxPoint x="870" y="1760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu11" value="" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=none;dashed=1;strokeColor=#999999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1115" y="126" as="sourcePoint" />
+            <mxPoint x="1115" y="1760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu13" value="" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=none;dashed=1;strokeColor=#999999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1360" y="126" as="sourcePoint" />
+            <mxPoint x="1360" y="1760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu15" value="" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=none;dashed=1;strokeColor=#999999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1605" y="126" as="sourcePoint" />
+            <mxPoint x="1605" y="1760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu17" value="" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=none;dashed=1;strokeColor=#999999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1850" y="126" as="sourcePoint" />
+            <mxPoint x="1850" y="1760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu1" value="&lt;b&gt;Secuencia: borrador → timbrado → descarga → cancelación&lt;/b&gt;&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Llamadas reales del código (routers/facturas.py, services/*, Facturama Multiemisor)&lt;/font&gt;&lt;/i&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="12" width="1500" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="flu2" value="Usuario" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="190" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="flu4" value="Next.js&lt;br&gt;InvoiceEditor · facturas/[id]" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="285" y="70" width="190" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="flu6" value="FastAPI&lt;br&gt;routers/facturas.py" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="530" y="70" width="190" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="flu8" value="services/&lt;br&gt;taxes · validation · cfdi_builder" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="775" y="70" width="190" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="flu10" value="PostgreSQL" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="70" width="190" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="flu12" value="services/pac.py&lt;br&gt;FacturamaPAC" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1265" y="70" width="190" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="flu14" value="Facturama&lt;br&gt;API Multiemisor" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1510" y="70" width="190" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="flu16" value="SAT" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1755" y="70" width="190" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="flu18" value="&lt;b&gt;1 · Crear borrador y calcular totales&lt;/b&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;fillColor=#eeeeee;verticalAlign=middle;spacingTop=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="158" width="1945" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="flu28" value="&lt;b&gt;2 · Validar y timbrar&lt;/b&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;fillColor=#eeeeee;verticalAlign=middle;spacingTop=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="508" width="1945" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="flu45" value="⚠ Si el PAC responde error: ROLLBACK (el folio no se consume) y la API devuelve 502 con el detalle" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;fillColor=#fff4f2;verticalAlign=middle;spacingTop=0;" vertex="1" parent="1">
+          <mxGeometry x="565" y="1094" width="900" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="flu46" value="&lt;b&gt;3 · Descargar XML y PDF&lt;/b&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;fillColor=#eeeeee;verticalAlign=middle;spacingTop=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1140" width="1945" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="flu54" value="&lt;b&gt;4 · Cancelar (rol Contador)&lt;/b&gt;" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=12;fillColor=#eeeeee;verticalAlign=middle;spacingTop=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1422" width="1945" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="flu19" value="Captura emisor, cliente y conceptos" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="135" y="228" as="sourcePoint" />
+            <mxPoint x="380" y="228" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu20" value="POST /api/facturas/calcular (debounce 350 ms)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="262" as="sourcePoint" />
+            <mxPoint x="625" y="262" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu21" value="compute_invoice(lineas)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="296" as="sourcePoint" />
+            <mxPoint x="870" y="296" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu22" value="Totals" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="870" y="330" as="sourcePoint" />
+            <mxPoint x="625" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu23" value="200 · subtotal, traslados, retenciones, total" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="364" as="sourcePoint" />
+            <mxPoint x="380" y="364" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu24" value="POST /api/facturas · FacturaIn" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="398" as="sourcePoint" />
+            <mxPoint x="625" y="398" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu25" value="totals_for(factura)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="432" as="sourcePoint" />
+            <mxPoint x="870" y="432" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu26" value="INSERT facturas + detalle_factura (Borrador) + log" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="466" as="sourcePoint" />
+            <mxPoint x="1115" y="466" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu27" value="201 · FacturaOut" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="500" as="sourcePoint" />
+            <mxPoint x="380" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu29" value="POST /api/facturas/{id}/validar" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="578" as="sourcePoint" />
+            <mxPoint x="625" y="578" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu30" value="validate_invoice(emisor, cliente, factura)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="612" as="sourcePoint" />
+            <mxPoint x="870" y="612" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu31" value="{ errores: [...] }" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="646" as="sourcePoint" />
+            <mxPoint x="380" y="646" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu32" value="Clic en «Timbrar»" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="135" y="680" as="sourcePoint" />
+            <mxPoint x="380" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu33" value="POST /api/facturas/{id}/timbrar" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="714" as="sourcePoint" />
+            <mxPoint x="625" y="714" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu34" value="validate_invoice() → 422 si hay errores" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="748" as="sourcePoint" />
+            <mxPoint x="870" y="748" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu35" value="SELECT emisores … FOR UPDATE → serie, folio" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="782" as="sourcePoint" />
+            <mxPoint x="1115" y="782" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu36" value="facturama_payload() · preview_xml()" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="816" as="sourcePoint" />
+            <mxPoint x="870" y="816" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu37" value="stamp(payload)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="850" as="sourcePoint" />
+            <mxPoint x="1360" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu38" value="POST /api-lite/4/cfdis (Basic Auth)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1360" y="884" as="sourcePoint" />
+            <mxPoint x="1605" y="884" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu39" value="Sella con CSD del emisor y certifica" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1605" y="918" as="sourcePoint" />
+            <mxPoint x="1850" y="918" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu40" value="TimbreFiscalDigital (UUID)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1850" y="952" as="sourcePoint" />
+            <mxPoint x="1605" y="952" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu41" value="Id · XmlBase64 · TaxStamp.Uuid" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1605" y="986" as="sourcePoint" />
+            <mxPoint x="1360" y="986" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu42" value="StampResult(pac_id, uuid, fecha, xml)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1360" y="1020" as="sourcePoint" />
+            <mxPoint x="625" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu43" value="UPDATE factura Emitida · folio+1 · log · COMMIT" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="1054" as="sourcePoint" />
+            <mxPoint x="1115" y="1054" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu44" value="200 · FacturaOut (UUID)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="1088" as="sourcePoint" />
+            <mxPoint x="380" y="1088" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu47" value="GET /api/facturas/{id}/xml" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="1210" as="sourcePoint" />
+            <mxPoint x="625" y="1210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu48" value="XML timbrado guardado en BD" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="1244" as="sourcePoint" />
+            <mxPoint x="380" y="1244" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu49" value="GET /api/facturas/{id}/pdf" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="1278" as="sourcePoint" />
+            <mxPoint x="625" y="1278" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu50" value="download(pac_id, 'pdf')" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="1312" as="sourcePoint" />
+            <mxPoint x="1360" y="1312" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu51" value="GET /cfdi/pdf/issuedLite/{id}" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1360" y="1346" as="sourcePoint" />
+            <mxPoint x="1605" y="1346" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu52" value="Content (Base64)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1605" y="1380" as="sourcePoint" />
+            <mxPoint x="1360" y="1380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu53" value="application/pdf" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="1414" as="sourcePoint" />
+            <mxPoint x="380" y="1414" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu55" value="POST /api/facturas/{id}/cancelar · motivo 01–04" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="1492" as="sourcePoint" />
+            <mxPoint x="625" y="1492" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu56" value="cancel(pac_id, motivo, uuid_sustitucion)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="1526" as="sourcePoint" />
+            <mxPoint x="1360" y="1526" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu57" value="DELETE /api-lite/cfdis/{id}?motive=…" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1360" y="1560" as="sourcePoint" />
+            <mxPoint x="1605" y="1560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu58" value="Solicitud de cancelación" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1605" y="1594" as="sourcePoint" />
+            <mxPoint x="1850" y="1594" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu59" value="canceled | pending (aceptación del receptor)" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1850" y="1628" as="sourcePoint" />
+            <mxPoint x="1605" y="1628" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu60" value="Status · AcuseXmlBase64" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1605" y="1662" as="sourcePoint" />
+            <mxPoint x="1360" y="1662" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu61" value="UPDATE Cancelada | Cancelación pendiente · acuse · log" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="1696" as="sourcePoint" />
+            <mxPoint x="1115" y="1696" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flu62" value="200 · FacturaOut" style="html=1;rounded=0;fontSize=10;verticalAlign=bottom;labelBackgroundColor=none;strokeColor=#333333;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="1730" as="sourcePoint" />
+            <mxPoint x="380" y="1730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Modelo de datos" id="modelo-de-datos">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1780" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="mod1" value="&lt;b&gt;Modelo de datos · PostgreSQL&lt;/b&gt;&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Generado a partir de backend/app/models.py · PK = llave primaria · FK = llave foránea · UQ = único · IX = índice&lt;/font&gt;&lt;/i&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="12" width="1300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="mod2" value="roles" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="260" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="mod3" value="&lt;b&gt;PK&lt;/b&gt; id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod2">
+          <mxGeometry x="0" y="26" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod4" value="&lt;b&gt;UQ&lt;/b&gt; nombre &lt;font color=&quot;#777777&quot;&gt;varchar(50)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod2">
+          <mxGeometry x="0" y="44" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod5" value="descripcion &lt;font color=&quot;#777777&quot;&gt;varchar(255)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod2">
+          <mxGeometry x="0" y="62" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod6" value="fecha_creacion &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod2">
+          <mxGeometry x="0" y="80" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod7" value="usuario_roles" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="210" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mod8" value="&lt;b&gt;PK FK&lt;/b&gt; usuario_id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod7">
+          <mxGeometry x="0" y="26" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod9" value="&lt;b&gt;PK FK&lt;/b&gt; rol_id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod7">
+          <mxGeometry x="0" y="44" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod10" value="fecha_asignacion &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod7">
+          <mxGeometry x="0" y="62" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod11" value="usuarios" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="320" width="260" height="134" as="geometry" />
+        </mxCell>
+        <mxCell id="mod12" value="&lt;b&gt;PK&lt;/b&gt; id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod11">
+          <mxGeometry x="0" y="26" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod13" value="&lt;b&gt;UQ IX&lt;/b&gt; email &lt;font color=&quot;#777777&quot;&gt;varchar(255)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod11">
+          <mxGeometry x="0" y="44" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod14" value="nombre &lt;font color=&quot;#777777&quot;&gt;varchar(255)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod11">
+          <mxGeometry x="0" y="62" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod15" value="password_hash &lt;font color=&quot;#777777&quot;&gt;pbkdf2_sha256&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod11">
+          <mxGeometry x="0" y="80" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod16" value="activo &lt;font color=&quot;#777777&quot;&gt;bool&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod11">
+          <mxGeometry x="0" y="98" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod17" value="fecha_creacion &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod11">
+          <mxGeometry x="0" y="116" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod18" value="log_actividades" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="500" width="260" height="188" as="geometry" />
+        </mxCell>
+        <mxCell id="mod19" value="&lt;b&gt;PK&lt;/b&gt; id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod18">
+          <mxGeometry x="0" y="26" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod20" value="&lt;b&gt;FK&lt;/b&gt; usuario_id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod18">
+          <mxGeometry x="0" y="44" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod21" value="accion &lt;font color=&quot;#777777&quot;&gt;varchar(50)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod18">
+          <mxGeometry x="0" y="62" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod22" value="tabla_afectada &lt;font color=&quot;#777777&quot;&gt;varchar(50)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod18">
+          <mxGeometry x="0" y="80" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod23" value="registro_id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod18">
+          <mxGeometry x="0" y="98" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod24" value="valor_anterior &lt;font color=&quot;#777777&quot;&gt;text (JSON)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod18">
+          <mxGeometry x="0" y="116" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod25" value="valor_nuevo &lt;font color=&quot;#777777&quot;&gt;text (JSON)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod18">
+          <mxGeometry x="0" y="134" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod26" value="fecha_accion &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod18">
+          <mxGeometry x="0" y="152" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod27" value="direccion_ip &lt;font color=&quot;#777777&quot;&gt;varchar(45)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod18">
+          <mxGeometry x="0" y="170" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod28" value="facturas" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="80" width="340" height="584" as="geometry" />
+        </mxCell>
+        <mxCell id="mod29" value="&lt;b&gt;PK&lt;/b&gt; id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="26" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod30" value="&lt;b&gt;FK&lt;/b&gt; usuario_id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="44" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod31" value="&lt;b&gt;FK&lt;/b&gt; emisor_id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="62" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod32" value="&lt;b&gt;FK&lt;/b&gt; cliente_id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="80" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod33" value="tipo_comprobante &lt;font color=&quot;#777777&quot;&gt;I | E&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="98" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod34" value="&lt;b&gt;UQ*&lt;/b&gt; serie &lt;font color=&quot;#777777&quot;&gt;varchar(25)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="116" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod35" value="&lt;b&gt;UQ*&lt;/b&gt; folio &lt;font color=&quot;#777777&quot;&gt;int (al timbrar)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="134" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod36" value="fecha_emision &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="152" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod37" value="uso_cfdi &lt;font color=&quot;#777777&quot;&gt;c_UsoCFDI&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="170" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod38" value="forma_pago &lt;font color=&quot;#777777&quot;&gt;c_FormaPago&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="188" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod39" value="metodo_pago &lt;font color=&quot;#777777&quot;&gt;PUE | PPD&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="206" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod40" value="moneda &lt;font color=&quot;#777777&quot;&gt;c_Moneda&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="224" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod41" value="tipo_cambio &lt;font color=&quot;#777777&quot;&gt;numeric(18,6)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="242" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod42" value="exportacion &lt;font color=&quot;#777777&quot;&gt;c_Exportacion&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="260" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod43" value="condiciones_pago &lt;font color=&quot;#777777&quot;&gt;varchar(255)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="278" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod44" value="observaciones &lt;font color=&quot;#777777&quot;&gt;text&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="296" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod45" value="cfdi_relacionado_uuid &lt;font color=&quot;#777777&quot;&gt;varchar(36)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="314" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod46" value="tipo_relacion &lt;font color=&quot;#777777&quot;&gt;varchar(2)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="332" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod47" value="subtotal · descuento &lt;font color=&quot;#777777&quot;&gt;numeric(18,2)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="350" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod48" value="total_traslados &lt;font color=&quot;#777777&quot;&gt;numeric(18,2)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="368" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod49" value="total_retenciones &lt;font color=&quot;#777777&quot;&gt;numeric(18,2)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="386" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod50" value="total &lt;font color=&quot;#777777&quot;&gt;numeric(18,2)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="404" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod51" value="estado &lt;font color=&quot;#777777&quot;&gt;Borrador|Emitida|Canc. pend.|Cancelada&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="422" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod52" value="pac_id &lt;font color=&quot;#777777&quot;&gt;varchar(100)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="440" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod53" value="&lt;b&gt;IX&lt;/b&gt; uuid &lt;font color=&quot;#777777&quot;&gt;varchar(36)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="458" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod54" value="fecha_timbrado &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="476" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod55" value="xml &lt;font color=&quot;#777777&quot;&gt;text (CFDI timbrado)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="494" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod56" value="motivo_cancelacion &lt;font color=&quot;#777777&quot;&gt;01..04&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="512" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod57" value="fecha_cancelacion &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="530" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod58" value="acuse_cancelacion &lt;font color=&quot;#777777&quot;&gt;text&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="548" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod59" value="fecha_creacion · fecha_actualizacion &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod28">
+          <mxGeometry x="0" y="566" width="340" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod60" value="emisores" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="800" y="80" width="290" height="242" as="geometry" />
+        </mxCell>
+        <mxCell id="mod61" value="&lt;b&gt;PK&lt;/b&gt; id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="26" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod62" value="&lt;b&gt;UQ IX&lt;/b&gt; rfc &lt;font color=&quot;#777777&quot;&gt;varchar(13)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="44" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod63" value="razon_social &lt;font color=&quot;#777777&quot;&gt;varchar(300)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="62" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod64" value="regimen_fiscal &lt;font color=&quot;#777777&quot;&gt;c_RegimenFiscal&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="80" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod65" value="codigo_postal &lt;font color=&quot;#777777&quot;&gt;LugarExpedicion&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="98" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod66" value="email · telefono &lt;font color=&quot;#777777&quot;&gt;varchar&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="116" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod67" value="direccion · logo_url &lt;font color=&quot;#777777&quot;&gt;varchar&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="134" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod68" value="serie &lt;font color=&quot;#777777&quot;&gt;varchar(25)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="152" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod69" value="siguiente_folio &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="170" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod70" value="csd_cargado &lt;font color=&quot;#777777&quot;&gt;bool&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="188" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod71" value="activo &lt;font color=&quot;#777777&quot;&gt;bool&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="206" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod72" value="fecha_registro &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod60">
+          <mxGeometry x="0" y="224" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod73" value="clientes" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="800" y="380" width="290" height="206" as="geometry" />
+        </mxCell>
+        <mxCell id="mod74" value="&lt;b&gt;PK&lt;/b&gt; id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="26" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod75" value="&lt;b&gt;IX&lt;/b&gt; rfc &lt;font color=&quot;#777777&quot;&gt;varchar(13)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="44" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod76" value="razon_social &lt;font color=&quot;#777777&quot;&gt;varchar(300)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="62" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod77" value="tipo_persona &lt;font color=&quot;#777777&quot;&gt;fisica | moral&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="80" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod78" value="regimen_fiscal &lt;font color=&quot;#777777&quot;&gt;c_RegimenFiscal&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="98" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod79" value="uso_cfdi &lt;font color=&quot;#777777&quot;&gt;c_UsoCFDI&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="116" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod80" value="codigo_postal &lt;font color=&quot;#777777&quot;&gt;DomicilioFiscal&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="134" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod81" value="email &lt;font color=&quot;#777777&quot;&gt;varchar&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="152" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod82" value="activo &lt;font color=&quot;#777777&quot;&gt;bool&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="170" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod83" value="fecha_registro &lt;font color=&quot;#777777&quot;&gt;timestamptz&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod73">
+          <mxGeometry x="0" y="188" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod84" value="detalle_factura" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="80" width="290" height="332" as="geometry" />
+        </mxCell>
+        <mxCell id="mod85" value="&lt;b&gt;PK&lt;/b&gt; id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="26" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod86" value="&lt;b&gt;FK IX&lt;/b&gt; factura_id &lt;font color=&quot;#777777&quot;&gt;int · ON DELETE CASCADE&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="44" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod87" value="&lt;b&gt;FK&lt;/b&gt; producto_id &lt;font color=&quot;#777777&quot;&gt;int (opcional)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="62" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod88" value="codigo &lt;font color=&quot;#777777&quot;&gt;NoIdentificacion&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="80" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod89" value="clave_prod_serv &lt;font color=&quot;#777777&quot;&gt;c_ClaveProdServ&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="98" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod90" value="clave_unidad &lt;font color=&quot;#777777&quot;&gt;c_ClaveUnidad&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="116" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod91" value="unidad &lt;font color=&quot;#777777&quot;&gt;varchar(20)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="134" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod92" value="descripcion &lt;font color=&quot;#777777&quot;&gt;varchar(1000)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="152" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod93" value="cantidad &lt;font color=&quot;#777777&quot;&gt;numeric(18,6)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="170" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod94" value="precio_unitario &lt;font color=&quot;#777777&quot;&gt;numeric(18,6)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="188" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod95" value="descuento &lt;font color=&quot;#777777&quot;&gt;numeric(18,2)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="206" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod96" value="objeto_imp &lt;font color=&quot;#777777&quot;&gt;c_ObjetoImp&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="224" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod97" value="iva_tasa &lt;font color=&quot;#777777&quot;&gt;tasa | exento&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="242" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod98" value="ieps_tasa &lt;font color=&quot;#777777&quot;&gt;tasa&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="260" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod99" value="ret_isr_tasa &lt;font color=&quot;#777777&quot;&gt;tasa&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="278" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod100" value="ret_iva_tasa &lt;font color=&quot;#777777&quot;&gt;tasa&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="296" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod101" value="importe · total &lt;font color=&quot;#777777&quot;&gt;numeric(18,2)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod84">
+          <mxGeometry x="0" y="314" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod102" value="productos" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="520" width="290" height="242" as="geometry" />
+        </mxCell>
+        <mxCell id="mod103" value="&lt;b&gt;PK&lt;/b&gt; id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="26" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod104" value="&lt;b&gt;FK&lt;/b&gt; categoria_id &lt;font color=&quot;#777777&quot;&gt;int (opcional)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="44" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod105" value="codigo · nombre &lt;font color=&quot;#777777&quot;&gt;varchar&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="62" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod106" value="descripcion &lt;font color=&quot;#777777&quot;&gt;varchar(1000)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="80" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod107" value="clave_prod_serv &lt;font color=&quot;#777777&quot;&gt;c_ClaveProdServ&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="98" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod108" value="clave_unidad &lt;font color=&quot;#777777&quot;&gt;c_ClaveUnidad&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="116" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod109" value="unidad &lt;font color=&quot;#777777&quot;&gt;varchar(20)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="134" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod110" value="precio_unitario &lt;font color=&quot;#777777&quot;&gt;numeric(18,6)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="152" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod111" value="objeto_imp &lt;font color=&quot;#777777&quot;&gt;c_ObjetoImp&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="170" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod112" value="iva_tasa · ieps_tasa &lt;font color=&quot;#777777&quot;&gt;tasa&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="188" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod113" value="stock &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="206" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod114" value="activo &lt;font color=&quot;#777777&quot;&gt;bool&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod102">
+          <mxGeometry x="0" y="224" width="290" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod115" value="categorias" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1520" y="520" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mod116" value="&lt;b&gt;PK&lt;/b&gt; id &lt;font color=&quot;#777777&quot;&gt;int&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod115">
+          <mxGeometry x="0" y="26" width="220" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod117" value="&lt;b&gt;UQ&lt;/b&gt; nombre &lt;font color=&quot;#777777&quot;&gt;varchar(100)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod115">
+          <mxGeometry x="0" y="44" width="220" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod118" value="descripcion &lt;font color=&quot;#777777&quot;&gt;varchar(255)&lt;/font&gt;" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;fontSize=10;" vertex="1" parent="mod115">
+          <mxGeometry x="0" y="62" width="220" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="mod119" value="&lt;b&gt;Notas&lt;/b&gt;&lt;br&gt;&lt;b&gt;UQ*&lt;/b&gt; &lt;font face=&quot;Courier New&quot;&gt;uq_factura_folio&lt;/font&gt;: (emisor_id, serie, folio)&lt;br&gt;&lt;br&gt;Catálogos SAT viven en código (&lt;font face=&quot;Courier New&quot;&gt;app/sat/catalogs.py&lt;/font&gt;), no en tablas.&lt;br&gt;&lt;br&gt;&lt;b&gt;Cambios vs docs/db.txt&lt;/b&gt;&lt;br&gt;• ConfiguracionEmpresa → emisores (varios RFC)&lt;br&gt;• Se agrega usuarios; Sesiones → JWT&lt;br&gt;• TipoPersona se deriva del RFC&lt;br&gt;• Impuestos → catálogos en código&lt;br&gt;• Pagos / MetodosPago: siguiente fase (Complemento de Pago 2.0)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;spacingRight=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1520" y="80" width="230" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="mod120" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod11" target="mod7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mod121" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod2" target="mod7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mod122" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERzeroToOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod11" target="mod18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mod123" value="crea 1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod11" target="mod28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mod124" value="emite 1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod60" target="mod28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mod125" value="recibe 1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod73" target="mod28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mod126" value="1:N cascade" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERmandOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod28" target="mod84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mod127" value="0..1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERzeroToOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod102" target="mod84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mod128" value="0..1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;fontSize=10;labelBackgroundColor=#ffffff;strokeColor=#333333;edgeStyle=entityRelationEdgeStyle;startArrow=ERzeroToOne;startFill=0;endArrow=ERmany;endFill=0;" edge="1" parent="1" source="mod115" target="mod102">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

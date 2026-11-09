@@ -92,8 +92,12 @@ frontend/
   app/(app)/            # facturas, clientes, productos, emisores
   components/           # Editor de factura, selects de catálogos, modales
   lib/                  # Cliente de API, tipos, utilidades
-docs/                   # Requerimientos, tablas y diagrama originales
+docs/                   # Requerimientos, tablas, diagrama original y arquitectura-tecnica.drawio
 ```
+
+## Diagrama técnico
+
+`docs/arquitectura-tecnica.drawio` (ábrelo en https://app.diagrams.net) tiene tres páginas: **Arquitectura** (componentes, endpoints y despliegue), **Flujo de timbrado** (secuencia de borrador → timbrado → descarga → cancelación) y **Modelo de datos** (tablas y relaciones).
 
 ## Cambios respecto a `docs/db.txt`
 
