@@ -105,8 +105,4 @@ docs/                   # Requerimientos, tablas y diagrama originales
 
 ## Siguientes pasos
 
-- Pagos y **Complemento de Recepción de Pagos 2.0** para facturas PPD.
-- Factura global configurable (periodicidad/meses) y envío por correo.
-- Búsqueda de catálogos completos de ClaveProdServ / ClaveUnidad.
-- Migraciones con Alembic (hoy las tablas se crean al iniciar).
-- Cifrado de datos sensibles y pruebas de integración de la API.
+Ver [ROADMAP.md](ROADMAP.md) para la lista priorizada de lo que falta.
